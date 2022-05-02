@@ -31,3 +31,5 @@ def homePageView(request):
 
 
     # Fault 1: Improper use of GET and POST in transfer and html
+    # Fault 2: Lack of login required before functions ?
+    
