@@ -34,7 +34,11 @@
 
         <h2>Send money:</h2>
         <!-- Error here is the presence of method get instead of POST -->
-        <form action='transfer/' method="GET">
+        <!-- "GET /transfer/?to=bob&amount=5&content=Thank+you+for+the+dinner%21 HTTP/1.1" 404 2537 -->
+        <!-- See forgery tokens -->
+        <!-- <form action='transfer/' method="GET"> -->
+        <form action='/' method="POST">
+            {% csrf_token %}
             <span>To:</span><br/>
             <select name="to">
 			{% for account in accounts %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.template import loader
 from django.db import transaction
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Account, Message
 
@@ -17,6 +18,7 @@ def transfer(sender, receiver, amount, message):
             acc1.save()
             acc2.save()
 
+@login_required
 def homePageView(request):
     if request.method == 'POST':
         sender = request.user
@@ -26,7 +28,8 @@ def homePageView(request):
         transfer(sender, receiver, amount, message)
 
     accounts = Account.objects.exclude(user_id=request.user.id)
-    context = {'accounts': accounts}
+    messages = Message.objects.filter(source = request.user.id)
+    context = {'accounts': accounts,'msgs': messages}
     return render(request, 'afterlog.html', context)
 
 

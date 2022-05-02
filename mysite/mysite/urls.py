@@ -19,7 +19,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', LoginView.as_view(template_name='afterlog/templates/login.html')),
+    path('login/', LoginView.as_view(template_name='login.html')),
 	path('logout/', LogoutView.as_view(next_page='/')),
 	path('', include('afterlog.urls'))
 ]
