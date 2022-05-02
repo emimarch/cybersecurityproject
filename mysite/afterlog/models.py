@@ -11,5 +11,5 @@ class Message(models.Model):
     source = models.ForeignKey(User, on_delete=models.CASCADE, related_name='source')
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target')
     content = models.TextField()
-    amount = models.TextField()
+    amount = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)

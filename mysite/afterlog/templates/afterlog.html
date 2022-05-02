@@ -25,6 +25,7 @@
 
 		<i>From {{msg.source.username}} to {{msg.target.username}}</i></br>
 		{{msg.content|safe}}
+        {{msg.amount|safe}}
 		</br>
 		</br>
 
@@ -32,6 +33,7 @@
 
 
         <h2>Send money:</h2>
+        <!-- Error here is the presence of method get instead of POST -->
         <form action='transfer/' method="GET">
             <span>To:</span><br/>
             <select name="to">
