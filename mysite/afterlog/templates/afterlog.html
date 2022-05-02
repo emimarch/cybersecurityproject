@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>QuickPay</title>
+    </head>
+
+
+    <body>
+		<h1>QuickPay</h1>
+
+        <table>
+		<tr>
+		<th style="text-align:left">Username: <td>{{user.username}} 
+		</table>
+
+
+        <form action='logout/' method="POST">
+			{% csrf_token %}
+            <input type="submit" value="Logout"/>
+        </form>
+		
+        <h2>Previous transactions:</h2>
+
+		{% for msg in msgs %}
+
+		<i>From {{msg.source.username}} to {{msg.target.username}}</i></br>
+		{{msg.content|safe}}
+		</br>
+		</br>
+
+		{% endfor %}
+
+
+        <h2>Send money:</h2>
+        <form action='transfer/' method="GET">
+            <span>To:</span><br/>
+            <select name="to">
+			{% for account in accounts %}
+                <option value="{{account.user.username}}">{{account.user.username}}</option>
+			{% endfor %}
+            </select><br/>
+
+            <span>Amount:</span><br/>
+            <input type="number" name="amount"/><br/>
+
+            <textarea name="content" cols="40" rows="5"></textarea><br/>
+            
+            <input type="submit" value="Transfer"/>
+        </form>
+
+        <!-- <form action='add/' method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            To:
+            <select name="to">
+            {% for user in users %}
+                <option value="{{user.username}}">{{user.username}}</option>
+            {% endfor %}
+            </select><br/>
+
+			<textarea name="content" cols="40" rows="5"></textarea><br/>
+            <input type="submit" value="Send"/>
+        </form> -->
+    </body>
+
+
+    </body>
+</html>
