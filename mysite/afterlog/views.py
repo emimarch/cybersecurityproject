@@ -27,9 +27,9 @@ def homePageView(request):
 
     accounts = Account.objects.exclude(user_id=request.user.id)
     context = {'accounts': accounts}
-    return render(request, 'afterlog/afterlog.html', context)
+    return render(request, 'afterlog.html', context)
 
 
     # Fault 1: Improper use of GET and POST in transfer and html
     # Fault 2: Lack of login required before functions ?
-    
+
