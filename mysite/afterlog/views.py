@@ -73,4 +73,10 @@ def homePageView(request):
     # Fault 1: Improper use of GET and POST in transfer and html
     # Fault 2: Broken Access Control: does not check whether the owner is the logged user when downloading coupons
     # Fault 3: XSS, fix using sanitization
+    # Fault 4: Sql injection using message (cursor instead of model)
+    #INSERT INTO Message (source, target, content, amount, time) VALUES (source, target, content, amount, time);
+    #content = "5',5,5) UNION SELECT password FROM Users WHERE admin LIKE '1 UNION INSERT INTO Message (source, target, content, amount, time) VALUES (NULL, NULL, 'Fooledya', 5, 5)";
+    #- GET request for transactions -> transactions can be seen in the server log
+    # CRSF token is missing in the transaction api -> Attacker can send special url to the victim (e.g. http://.../transaction?target=eve&amount=1000000&message=hahaha)
+
 
