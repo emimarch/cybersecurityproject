@@ -31,7 +31,18 @@
 
 		{% endfor %}
 
+        <h2>Your coupons</h2>
 
+        <table>
+		{% for coupon in coupons %}
+		<tr>
+		<td>
+		{{coupon.name}}
+		<td>
+		<a href="download/{{coupon.id}}">Download</a>
+		<td>
+        {% endfor %}
+        </table>
         <h2>Send money:</h2>
         <!-- Error here is the presence of method get instead of POST -->
         <!-- "GET /transfer/?to=bob&amount=5&content=Thank+you+for+the+dinner%21 HTTP/1.1" 404 2537 -->
