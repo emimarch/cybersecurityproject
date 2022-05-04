@@ -10,7 +10,9 @@
 
         <table>
 		<tr>
-		<th style="text-align:left">Username: <td>{{user.username}} 
+		<th style="text-align:left">Username: <td>{{user.username}}<br/>
+
+        <th style="text-align:left">Balance: <td>{{user.account.balance}}
 		</table>
 
 
@@ -23,7 +25,8 @@
 
 		{% for msg in msgs %}
 
-		<i>From {{msg.source.username}} to {{msg.target.username}}</i></br>
+		<!-- <i>From {{msg.source.username}} to {{msg.target.username}}</i></br> -->
+        <i>From {{msg.source}} to {{msg.target}}</i></br>
 		{{msg.content|safe}}
         {{msg.amount|safe}}
 		</br>
@@ -67,6 +70,7 @@
 
 
         <form action='transfer/' method="GET">
+            <!-- {% csrf_token %} -->
             <span>To:</span><br/>
             <select name="to">
 			{% for account in accounts %}
