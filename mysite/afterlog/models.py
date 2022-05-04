@@ -10,9 +10,9 @@ class Account(models.Model):
 class Message(models.Model):
     source = models.ForeignKey(User, on_delete=models.CASCADE, related_name='source')
     target = models.ForeignKey(User, on_delete=models.CASCADE, related_name='target')
-    content = models.TextField()
     amount = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()
 
 def user_directory_path(instance, filename):
     # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>

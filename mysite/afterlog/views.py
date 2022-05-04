@@ -6,13 +6,19 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Account, Message, Coupon, Mail
+import sqlite3
+import string
 
 def transfer(sender, receiver, amount, message):
     	with transaction.atomic():
             acc1 = Account.objects.get(user=sender)
             acc2 = Account.objects.get(user=receiver)
             ## Possibly add improper check up on balance here
-            Message.objects.create(source=sender, target=receiver, amount = amount, content= message)
+            #Message.objects.create(source=sender, target=receiver, amount = amount, content= message)
+            #conn = sqlite3.connect(db.sqlite3)
+            #cursor = conn.cursor()
+            #response = cursor.execute("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
+            Message.objects.raw("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
             if amount > 0 and acc1.balance >= amount and acc1 != acc2:
                 acc1.balance -= amount
                 acc2.balance += amount
@@ -53,14 +59,43 @@ def mailView(request):
 	print(request.body.decode('utf-8'))
 	return HttpResponse('')
 
+
+# Faults: 
+# SQL injections
+# Using get parameters make it suscitible to crsf
+# 
+@login_required
+def transferView(request):
+    sender = request.user
+    receiver = User.objects.get(username = request.GET.get('to'))
+    amount = int(request.GET.get('amount'))
+    content = request.GET.get('content')
+    with transaction.atomic():
+        acc1 = Account.objects.get(user=sender)
+        acc2 = Account.objects.get(user=receiver)
+        ## Possibly add improper check up on balance here
+        #Message.objects.create(source=sender, target=receiver, amount = amount, content= message)
+        #conn = sqlite3.connect(db.sqlite3)
+        #cursor = conn.cursor()
+        #response = cursor.execute("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
+        Message.objects.raw("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source , target, amount, time, content)).fetchall()
+        if amount > 0 and acc1.balance >= amount and acc1 != acc2:
+            acc1.balance -= amount
+            acc2.balance += amount
+
+        acc1.save()
+        acc2.save()
+    return redirect('/')
+	#return render(request, 'pages/confirm.html')
+
 @login_required
 def homePageView(request):
-    if request.method == 'POST':
-        sender = request.user
-        receiver = User.objects.get(username = request.POST.get('to'))
-        amount = int(request.POST.get('amount'))
-        message = request.POST.get('content')
-        transfer(sender, receiver, amount, message)
+    # if request.method == 'POST':
+    #     sender = request.user
+    #     receiver = User.objects.get(username = request.POST.get('to'))
+    #     amount = int(request.POST.get('amount'))
+    #     message = request.POST.get('content')
+    #     transfer(sender, receiver, amount, message)
 
     accounts = Account.objects.exclude(user_id=request.user.id)
     messages = Message.objects.filter(source = request.user.id)
@@ -74,9 +109,9 @@ def homePageView(request):
     # Fault 2: Broken Access Control: does not check whether the owner is the logged user when downloading coupons
     # Fault 3: XSS, fix using sanitization
     # Fault 4: Sql injection using message (cursor instead of model)
-    #INSERT INTO Message (source, target, content, amount, time) VALUES (source, target, content, amount, time);
-    #content = "5',5,5) UNION SELECT password FROM Users WHERE admin LIKE '1 UNION INSERT INTO Message (source, target, content, amount, time) VALUES (NULL, NULL, 'Fooledya', 5, 5)";
-    #- GET request for transactions -> transactions can be seen in the server log
+    #INSERT INTO Message (source, target, amount, time, content) VALUES (source, target, amount, time, content);
+    #content = "5') UNION SELECT password FROM Users WHERE admin LIKE '1";
+    # Fault 5: crsf: GET request for transactions -> transactions can be seen in the server log
     # CRSF token is missing in the transaction api -> Attacker can send special url to the victim (e.g. http://.../transaction?target=eve&amount=1000000&message=hahaha)
 
 
