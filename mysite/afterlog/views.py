@@ -18,7 +18,7 @@ def transfer(sender, receiver, amount, message):
             #conn = sqlite3.connect(db.sqlite3)
             #cursor = conn.cursor()
             #response = cursor.execute("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
-            Message.objects.raw("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
+            #Message.objects.raw("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
             if amount > 0 and acc1.balance >= amount and acc1 != acc2:
                 acc1.balance -= amount
                 acc2.balance += amount
@@ -66,19 +66,19 @@ def mailView(request):
 # 
 @login_required
 def transferView(request):
-    sender = request.user
-    receiver = User.objects.get(username = request.GET.get('to'))
+    source = request.user
+    target = User.objects.get(username = request.GET.get('to'))
     amount = int(request.GET.get('amount'))
     content = request.GET.get('content')
     with transaction.atomic():
-        acc1 = Account.objects.get(user=sender)
-        acc2 = Account.objects.get(user=receiver)
+        acc1 = Account.objects.get(user=source)
+        acc2 = Account.objects.get(user=target)
         ## Possibly add improper check up on balance here
         #Message.objects.create(source=sender, target=receiver, amount = amount, content= message)
         #conn = sqlite3.connect(db.sqlite3)
         #cursor = conn.cursor()
         #response = cursor.execute("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source,target, amount, time, content)).fetchall()
-        Message.objects.raw("INSERT INTO Message (source, target, amount, time, content) VALUES (%s, %s, %s, %s, %s)" % (source , target, amount, time, content)).fetchall()
+        Message.objects.raw("INSERT INTO Message (source, target, amount, content) VALUES (%s, %s, %s, %s)" % (source , target, amount, content)).fetchall()
         if amount > 0 and acc1.balance >= amount and acc1 != acc2:
             acc1.balance -= amount
             acc2.balance += amount
