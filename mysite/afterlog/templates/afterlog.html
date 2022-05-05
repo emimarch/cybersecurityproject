@@ -21,7 +21,7 @@
             <input type="submit" value="Logout"/>
         </form>
 		
-        <h2>Previous transactions:</h2>
+        <h2>Previous Quickies:</h2>
 
 		{% for msg in msgs %}
 
@@ -33,6 +33,22 @@
 		</br>
 
 		{% endfor %}
+
+        <h2>Get Quickies</h2>
+
+    
+        <form action='aggregate/' method="GET">
+            <!-- {% csrf_token %} -->
+            <span>From:</span><br/>
+            <select name="from">
+            {% for account in accounts %}
+                <option value="{{account.user.username}}">{{account.user.username}}</option>
+			{% endfor %}
+            </select><br/>
+
+            <input type="submit" value="GetQuicks"/>
+        </form>
+
 
         <h2>Your coupons</h2>
 
@@ -67,7 +83,6 @@
             
             <input type="submit" value="Transfer"/>
         </form> -->
-
 
         <form action='transfer/' method="GET">
             <!-- {% csrf_token %} -->

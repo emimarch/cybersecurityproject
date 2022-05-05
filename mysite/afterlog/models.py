@@ -13,7 +13,7 @@ class Message(models.Model):
     source=models.TextField()
     target = models.TextField()
     amount = models.TextField()
-    time = models.DateTimeField(auto_now_add=True)
+    #time = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
 
 def user_directory_path(instance, filename):
