@@ -55,8 +55,9 @@ def mailView(request):
 # printed in the command line (or navigate do dev tools -> network -> payload)
 
 # Fault 5: crfs
-# Replicate F5: bob is logged in in his account and receives a link from alice. The link is the following: http://127.0.0.1:8000/transfer/?to=alice&amount=30&content=hahahaa 
-# (you can try and insert that when you are logged in as bob). This immediately transfers the money to alice. 
+# Replicate F5: bob is logged in in his account and receives a link from alice, for instance in the form of a fake image on which he clicks on like shown in file csrf.html. 
+# The link is the following: http://127.0.0.1:8000/transfer/?to=alice&amount=30&content=hahahaa 
+# (you can try and insert that when you are logged in as bob). This immediately transfers the money to alice, because no crfs token is asked. 
 
 # Fix F5: crfs
 # Uncomment crfs line in afterlog.html at line 68 and uncommed crfs required line at line 67 before transferView. Now you can try to insert the url http://127.0.0.1:8000/transfer/?to=alice&amount=30&content=hahahaa

@@ -25,7 +25,6 @@
 
 		{% for msg in msgs %}
 
-		<!-- <i>From {{msg.source.username}} to {{msg.target.username}}</i></br> -->
         <i>From {{msg.source}} to {{msg.target}}</i></br>
 		{{msg.content|safe}}
         {{msg.amount|safe}}
