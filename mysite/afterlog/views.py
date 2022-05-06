@@ -52,7 +52,7 @@ def mailView(request):
 
 # Fault 4: XSS
 # Replicate F4: log in a bob, and insert the message present in msg.html into the message box. Send the message to alice, you should see the crfs cookie appear
-# printed in the command line (or navigate do dev tools -> network -> payload)
+# printed in the command line (or navigate do dev tools -> network -> payload, or log into admin site and see Mail objects)
 
 # Fault 5: crfs
 # Replicate F5: bob is logged in in his account and receives a link from alice, for instance in the form of a fake image on which he clicks on like shown in file csrf.html. 
