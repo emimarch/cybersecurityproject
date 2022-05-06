@@ -34,7 +34,7 @@
 
 		{% endfor %}
 
-        <h2>Get Quickies</h2>
+        <h2>Get Quickies:</h2>
 
     
         <form action='aggregate/' method="GET">
@@ -50,7 +50,7 @@
         </form>
 
 
-        <h2>Your coupons</h2>
+        <h2>Your coupons:</h2>
 
         <table>
 		{% for coupon in coupons %}
@@ -63,26 +63,6 @@
         {% endfor %}
         </table>
         <h2>Send quickies:</h2>
-        <!-- Error here is the presence of method get instead of POST -->
-        <!-- "GET /transfer/?to=bob&amount=5&content=Thank+you+for+the+dinner%21 HTTP/1.1" 404 2537 -->
-        <!-- See forgery tokens -->
-        <!-- <form action='transfer/' method="GET"> -->
-        <!-- <form action='/' method="POST">
-            {% csrf_token %}
-            <span>To:</span><br/>
-            <select name="to">
-			{% for account in accounts %}
-                <option value="{{account.user.username}}">{{account.user.username}}</option>
-			{% endfor %}
-            </select><br/>
-
-            <span>Amount:</span><br/>
-            <input type="number" name="amount"/><br/>
-
-            <textarea name="content" cols="40" rows="5"></textarea><br/>
-            
-            <input type="submit" value="Transfer"/>
-        </form> -->
 
         <form action='transfer/' method="GET">
             <!-- {% csrf_token %} -->
@@ -99,18 +79,6 @@
             <input type="submit" value="Transfer"/>
         </form>
 
-        <!-- <form action='add/' method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            To:
-            <select name="to">
-            {% for user in users %}
-                <option value="{{user.username}}">{{user.username}}</option>
-            {% endfor %}
-            </select><br/>
-
-			<textarea name="content" cols="40" rows="5"></textarea><br/>
-            <input type="submit" value="Send"/>
-        </form> -->
     </body>
 
 
